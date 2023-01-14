@@ -1,6 +1,6 @@
 # Kaasuhellan_Ajastin
 
-ESP32-vehje kelaa narulla vipuvarren päässä olevaa lieden pääkatkaisinta. Säätää
+ESP32-vehje kelaa siimalla vipuvarren päässä olevaa lieden pääkatkaisinta. Säätää
 myös puoliliekin.
 
 Havaitsee palohälytyksen, koska palohälyttimessä oleva transistori vetää
