@@ -1,9 +1,9 @@
 
 menyy=[
-    ['PERUNAT ',  5, 15],
-    ['RIISI   ', 5, 15],
-    ['EGG     ', 5, 0],
-    ['VELLI   ', 5, 5],
+    ['PERUNAT ',  4, 15],
+    ['RIISI   ', 4, 15],
+    ['EGG     ', 4, 0],
+    ['VELLI   ', 4, 5],
     ['UUNIPERUNAT', 40, 0],
     ['LEIPA 200C', 20, 0],   
     ['TESTI', 1, 2]   
