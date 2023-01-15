@@ -22,11 +22,16 @@ UP=0
 DOWN=1
 SIJAINTI=0
 
-def nosto(steps,suunta,speed=500):
+def kaasuhana(asento,speed=500):
     global SIJAINTI
     tm.brightness(7)
+    steps=asento-SIJAINTI
+    if steps==0: return
+    if steps<0: suunta=DOWN
+    else: suunta=UP
+    print('sd=',steps,suunta)
     direction.value(suunta)
-    for x in range(steps):
+    for x in range(abs(steps)):
         if suunta==UP: SIJAINTI+=1
         else: SIJAINTI-=1
         tm.number(SIJAINTI)
@@ -38,6 +43,7 @@ def nosto(steps,suunta,speed=500):
     time.sleep(1)
     tm.brightness(1)
 
+    
 
 def valinta(v):
     time.sleep(0.2)
@@ -103,20 +109,19 @@ def timerun(m1,m2,vasen):
     return 0
 
 TAPISSA=530
-PUOLI=315
+with open('PUOLI.TXT') as file:
+     PUOLI = int(file.read())
 
 def taysi():
-    nosto(TAPISSA-SIJAINTI,UP)
+    kaasuhana(TAPISSA)
 
 def puoli():
-    nosto(TAPISSA-SIJAINTI,UP)
-    nosto(TAPISSA-PUOLI-11,DOWN)
-    nosto(11,DOWN,50)
+    kaasuhana(PUOLI,100)
 
 def nolla():
-    nosto(SIJAINTI-10,DOWN)
+    kaasuhana(50)
     
-nosto(10,UP)
+kaasuhana(50)
 
 def keita(m1,m2):
     taysi()
@@ -158,6 +163,22 @@ while True:
         v=valinta(0)
         m1=menyy[v][1]
         m2=menyy[v][2]
+    if k==2**4:
+        if SIJAINTI==TAPISSA: puoli()
+        elif SIJAINTI==PUOLI: nolla()
+        else: taysi()
+    if k==2**5:
+        PUOLI-=1
+        puoli()
+        tm.number(PUOLI)
+        with open('PUOLI.TXT', 'w') as f: f.write('%d' % PUOLI)
+        time.sleep(2)
+    if k==2**6:
+        PUOLI+=1
+        puoli()
+        tm.number(PUOLI)
+        with open('PUOLI.TXT', 'w') as f: f.write('%d' % PUOLI)
+        time.sleep(2)
     if k==2**7:
         keita(m1,m2)
 
