@@ -2,9 +2,10 @@
 import tm1638,time
 from machine import Pin
 tm = tm1638.TM1638(stb=Pin(13), clk=Pin(14), dio=Pin(12))
+palohaly=Pin(15,Pin.IN)
 direction=Pin(27,Pin.OUT)
 step=Pin(26,Pin.OUT)
-palohaly=Pin(15,Pin.IN)
+stepable=Pin(25,Pin.OUT)
 
 tm.brightness(1)
 UP=1
@@ -105,13 +106,16 @@ def taysi():
     kaasuhana(TAPISSA)
 
 def puoli():
-    kaasuhana(PUOLI,100)
+    kaasuhana(PUOLI)
 
 def nolla():
     kaasuhana(0)
-    
+
+stepable.value(0)
 kaasuhana(50)
-kaasuhana(0)
+stepable.value(1)
+nolla()
+stepable.value(0)
 
 def keita(m1,m2):
     taysi()
@@ -162,13 +166,13 @@ while True:
         puoli()
         tm.number(PUOLI)
         with open('PUOLI.TXT', 'w') as f: f.write('%d' % PUOLI)
-        time.sleep(2)
+        time.sleep(1)
     if k==2**6:
         PUOLI+=1
         puoli()
         tm.number(PUOLI)
         with open('PUOLI.TXT', 'w') as f: f.write('%d' % PUOLI)
-        time.sleep(2)
+        time.sleep(1)
     if k==2**7:
         keita(m1,m2)
 
