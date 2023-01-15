@@ -7,8 +7,8 @@ step=Pin(26,Pin.OUT)
 palohaly=Pin(15,Pin.IN)
 
 tm.brightness(1)
-UP=0
-DOWN=1
+UP=1
+DOWN=0
 SIJAINTI=0
 
 def kaasuhana(asento,speed=500):
