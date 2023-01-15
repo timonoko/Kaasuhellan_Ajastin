@@ -1,15 +1,4 @@
 
-menyy=[
-    ['PERUNAT ',  4, 15],
-    ['RIISI   ', 4, 15],
-    ['EGG     ', 4, 0],
-    ['VELLI   ', 4, 5],
-    ['COFEFE  ', 3, 0],   
-    ['UUNIPERUNAT', 40, 0],
-    ['LEIPA 200C', 20, 0],   
-    ['TESTI', 1, 2]   
-    ]
-
 import tm1638,time
 from machine import Pin
 tm = tm1638.TM1638(stb=Pin(13), clk=Pin(14), dio=Pin(12))
@@ -43,7 +32,7 @@ def kaasuhana(asento,speed=500):
     time.sleep(1)
     tm.brightness(1)
 
-    
+from MENYY import menyy
 
 def valinta(v):
     time.sleep(0.2)
@@ -119,9 +108,10 @@ def puoli():
     kaasuhana(PUOLI,100)
 
 def nolla():
-    kaasuhana(50)
+    kaasuhana(0)
     
 kaasuhana(50)
+kaasuhana(0)
 
 def keita(m1,m2):
     taysi()
