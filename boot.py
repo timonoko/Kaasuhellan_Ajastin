@@ -40,7 +40,7 @@ for x in range(5):
     print('waiting')
     time.sleep(1)
 
-import testi
+import liesi
 
 
 
