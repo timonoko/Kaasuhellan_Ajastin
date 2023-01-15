@@ -12,5 +12,5 @@ Askelmoottori on entisestä skannerista ja näyttönappimoduuli on TM1638.
 
 Mitään rajaantureita ei ole, sillä kun virrat katkaistaan, painovoima vetää rullauskelan takasin nolla-asentoon. 
 
-<image src=Perunat2.png>
+<image src=perunat2.png>
 <image src=Perunat.png>
