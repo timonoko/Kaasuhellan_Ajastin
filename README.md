@@ -15,5 +15,6 @@ Kytkin nyt A4988:n enable pinnin, niin että toiminnan alussa vipua nostetaan 50
 sen jälkeen vapaasti pudota, jolloin nollaus on tarkka.
 
 https://youtu.be/Kd3liw780tA
+
 <image src=perunat2.png>
 <image src=Perunat.png>
