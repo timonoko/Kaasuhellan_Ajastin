@@ -14,5 +14,6 @@ Mit채채n raja-antureita ei ole, sill채 kun virrat katkaistaan, painovoima vet채�
 Kytkin nyt A4988:n enable pinnin, niin ett채 toiminnan alussa vipua nostetaan 50 pyk채l채채 ja annetaan
 sen j채lkeen vapaasti pudota, jolloin nollaus on tarkka.
 
+https://youtu.be/Kd3liw780tA
 <image src=perunat2.png>
 <image src=Perunat.png>
