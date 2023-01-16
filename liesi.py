@@ -106,13 +106,14 @@ def taysi():
     kaasuhana(TAPISSA)
 
 def puoli():
-    kaasuhana(PUOLI)
+    kaasuhana(PUOLI+100)
+    kaasuhana(PUOLI,80)
 
 def nolla():
     kaasuhana(0)
 
 stepable.value(0)
-kaasuhana(50)
+kaasuhana(30)
 stepable.value(1)
 nolla()
 stepable.value(0)
@@ -120,6 +121,9 @@ stepable.value(0)
 def keita(m1,m2):
     taysi()
     timerun(m1,m2,True)
+    if m2==0:
+        nolla()
+        return
     puoli()
     timerun(0,m2,False)
     nolla()
