@@ -1,11 +1,23 @@
 
-import tm1638,time
+import tm1638,time,machine
 from machine import Pin
 tm = tm1638.TM1638(stb=Pin(13), clk=Pin(14), dio=Pin(12))
 palohaly=Pin(15,Pin.IN)
 direction=Pin(27,Pin.OUT)
-step=Pin(26,Pin.OUT)
-stepable=Pin(25,Pin.OUT)
+step=Pin(17,Pin.OUT)
+stepable=Pin(5,Pin.OUT)
+
+adc=machine.ADC(machine.Pin(33),atten=machine.ADC.ATTN_11DB)
+
+def tempe1():
+    return (adc.read()*2450/900)*100./4096-50.
+
+TEMP=tempe1()
+
+def tempera():
+    global TEMP
+    TEMP=(9*TEMP+tempe1())/10
+    return 24+int(TEMP)
 
 tm.brightness(1)
 UP=1
@@ -60,16 +72,8 @@ def valinta(v):
             break
     return v
 
-def zfil(x):
-    if x<10:
-        return "  "+str(x)+" "
-    elif x<100:
-        return " "+str(x)+" "
-    else:
-        return " "+str(x)
-    
 def showtime (m1, m2):
-    tm.show(zfil(m1)+zfil(m2))
+    tm.show(str(tempera())+" "+str(m1)+" "+str(m2)+"   ")
 
 def timerun(m1,m2,vasen):
     if vasen: minsaa=m1
@@ -95,6 +99,7 @@ def timerun(m1,m2,vasen):
                 if k==2**1: mins-=1
                 if mins==minsaa and z==9: return mins
                 if palohaly.value()==0: return mins
+                if tempera()>65: return mins
         mins+=1
     return 0
 
