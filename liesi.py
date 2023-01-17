@@ -1,8 +1,11 @@
 
 import tm1638,time,machine
 from machine import Pin
+
 tm = tm1638.TM1638(stb=Pin(13), clk=Pin(14), dio=Pin(12))
+
 palohaly=Pin(15,Pin.IN)
+
 direction=Pin(27,Pin.OUT)
 step=Pin(17,Pin.OUT)
 stepable=Pin(5,Pin.OUT)
