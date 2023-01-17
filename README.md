@@ -14,7 +14,7 @@ Mitään raja-antureita ei ole, sillä kun virrat katkaistaan, painovoima vetä�
 Kytkin myös A4988:n enable-pinnin, niin että toiminnan alussa vipua nostetaan 50 pykälää ja annetaan
 sen jälkeen vapaasti pudota, jolloin nollaus on tarkka.
 
-Uunin yläpuolella oleva lämpömittari TMP36GT9Z sammuttaa hanan, jos lämpötila on yli 65 astetta ja kun keittämistaä on kestänyt yli 3 minuuttia ja lämpötila on silti alle 27 astetta.
+Uunin yläpuolella oleva lämpömittari TMP36GT9Z sammuttaa hanan, jos lämpötila on yli 65 astetta tai kun keittämistaä on kestänyt yli 3 minuuttia ja lämpötila on silti alle 27 astetta.
 
 https://youtu.be/Kd3liw780tA
 
