@@ -75,10 +75,14 @@ def valinta(v):
             break
     return v
 
+
 def showtime (m1, m2):
-    tm.show(str(tempera())+" "+str(m1)+" "+str(m2)+"   ")
+    s=str(m1)+" "+str(m2)
+    while len(s)<6: s=" "+s
+    tm.show(str(tempera())+s)
 
 def timerun(m1,m2,vasen):
+    global AIKA
     if vasen: minsaa=m1
     else: minsaa=m2
     mins=0
@@ -103,7 +107,10 @@ def timerun(m1,m2,vasen):
                 if mins==minsaa and z==9: return mins
                 if palohaly.value()==0: return mins
                 if tempera()>65: return mins
+                if AIKA>3 and tempera()<28: return mins
         mins+=1
+        AIKA+=1
+        print("AIKA=",AIKA)
     return 0
 
 TAPISSA=530
@@ -126,7 +133,10 @@ stepable.value(1)
 nolla()
 stepable.value(0)
 
+AIKA=0
 def keita(m1,m2):
+    global AIKA
+    AIKA=0
     taysi()
     timerun(m1,m2,True)
     if m2==0:

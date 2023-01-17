@@ -102,7 +102,6 @@ class TM1638(object):
     def write(self, data, pos=0):
         """Write to all 16 addresses from a given position.
         Order is left to right, 1st segment, 1st LED, 2nd segment, 2nd LED etc."""
-        print("write_data:",data)
         if not 0 <= pos <= 15:
             raise ValueError("Position out of range")
         self._write_data_cmd()
@@ -114,7 +113,6 @@ class TM1638(object):
 
     def led(self, pos, val):
         """Set the value of a single LED"""
-        print("led=",pos,val)
         self.write([val], (pos << 1) + 1)
 
     def leds(self, val):
