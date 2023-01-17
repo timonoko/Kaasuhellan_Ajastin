@@ -14,6 +14,7 @@ adc=machine.ADC(machine.Pin(33),atten=machine.ADC.ATTN_11DB)
 
 MAX_TEMP=70
 MIN_TEMP=30
+MIN_TEMP_TIME=5
 
 def tempe1():
     return (adc.read()*2450/900)*100./4096-50.
@@ -85,7 +86,7 @@ def showtime (m1, m2):
     tm.show(str(tempera())+s)
 
 def timerun(m1,m2,vasen):
-    global AIKA
+    global AIKA,MIN_TEMP_TIME
     if vasen: minsaa=m1
     else: minsaa=m2
     mins=0
@@ -110,7 +111,7 @@ def timerun(m1,m2,vasen):
                 if mins==minsaa and z==9: return mins
                 if palohaly.value()==0: return mins
                 if tempera()>MAX_TEMP: return mins
-                if AIKA>3 and tempera()<MIN_TEMP: return mins
+                if AIKA>MIN_TEMP_TIME and tempera()<MIN_TEMP: return mins
         mins+=1
         AIKA+=1
         print("AIKA=",AIKA)
@@ -138,7 +139,16 @@ stepable.value(0)
 
 AIKA=0
 def keita(m1,m2):
-    global AIKA
+    global AIKA,MIN_TEMP_TIME
+    if m1>15 and m2==0: # Uunissa on oma liekinvarmistin
+        tm.show('  UUNI  ')
+        MIN_TEMP_TIME=60
+        MIN_TEMP=25
+    else:
+        tm.show(' KATTILA')
+        MIN_TEMP_TIME=5
+        MIN_TEMP=30
+    time.sleep(1)
     AIKA=0
     taysi()
     timerun(m1,m2,True)
