@@ -12,6 +12,9 @@ stepable=Pin(5,Pin.OUT)
 
 adc=machine.ADC(machine.Pin(33),atten=machine.ADC.ATTN_11DB)
 
+MAX_TEMP=70
+MIN_TEMP=30
+
 def tempe1():
     return (adc.read()*2450/900)*100./4096-50.
 
@@ -106,8 +109,8 @@ def timerun(m1,m2,vasen):
                 if k==2**1: mins-=1
                 if mins==minsaa and z==9: return mins
                 if palohaly.value()==0: return mins
-                if tempera()>65: return mins
-                if AIKA>3 and tempera()<28: return mins
+                if tempera()>MAX_TEMP: return mins
+                if AIKA>3 and tempera()<MIN_TEMP: return mins
         mins+=1
         AIKA+=1
         print("AIKA=",AIKA)
@@ -146,9 +149,13 @@ def keita(m1,m2):
     timerun(0,m2,False)
     nolla()
 
+showtime(MIN_TEMP,MAX_TEMP)
+time.sleep(1)
+
 m1=1
 m2=0
 valo=1
+
 while True:
     if palohaly.value()==0:
         tm.show('TULIPALO')
