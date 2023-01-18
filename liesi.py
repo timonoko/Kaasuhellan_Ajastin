@@ -16,6 +16,10 @@ MAX_TEMP=70
 MIN_TEMP=30
 MIN_TEMP_TIME=5
 
+aika1=1
+aika2=0
+valo=1
+
 def tempe1():
     return (adc.read()*2450/900)*100./4096-50.
 
@@ -38,7 +42,7 @@ def kaasuhana(asento,speed=500):
     if steps==0: return
     if steps<0: suunta=DOWN
     else: suunta=UP
-    print('sd=',steps,suunta)
+    print('steps,suunta=',steps,suunta)
     direction.value(suunta)
     for x in range(abs(steps)):
         if suunta==UP: SIJAINTI+=1
@@ -79,39 +83,59 @@ def valinta(v):
             break
     return v
 
+def keys01(k):
+    global aika1,aika2
+    if k==2**0:
+        aika1=round(aika1*1.5)
+        if aika1>500:
+            aika1=1
+    if k==2**1:
+        if aika2==0:
+            aika2=1
+        else:
+            aika2=round(aika2*1.5)
+        if aika2>500:
+            aika2=0
+    cou=0
+    while tm.keys()>0:
+        time.sleep(0.1)
+        cou+=1
+        if cou>3:
+            if k==2**0: aika1=1
+            if k==2**1: aika2=0
 
-def showtime (m1, m2):
-    s=str(m1)+" "+str(m2)
+def showtime (aika1, aika2):
+    s=str(aika1)+" "+str(aika2)
     while len(s)<6: s=" "+s
     tm.show(str(tempera())+s)
 
-def timerun(m1,m2,vasen):
-    global AIKA,MIN_TEMP_TIME
-    if vasen: minsaa=m1
-    else: minsaa=m2
+def timerun(vasen):
+    global AIKA,MIN_TEMP_TIME,aika1,aika2
+    if vasen: minsaa=aika1
+    else: minsaa=aika2
     mins=0
     while mins < minsaa:
         for y in range(6):
             for z in range(10):
-                tm.led(y+1,1)
-                if vasen: showtime(m1-mins,m2)
-                else: showtime(m1,m2-mins)
-                time.sleep(0.4)
-                tm.led(7,1)
-                tm.led(0,0)
-                time.sleep(0.3)
-                tm.led(7,0)
-                tm.led(0,1)
-                time.sleep(0.3)
                 tm.leds(0)
-                k=tm.keys()
-                if k==2**7: return mins
-                if k==2**0: mins+=1
-                if k==2**1: mins-=1
+                tm.led(y+1,1)
+                if vasen: showtime(aika1-mins,aika2)
+                else: showtime(aika1,aika2-mins)
                 if mins==minsaa and z==9: return mins
                 if palohaly.value()==0: return mins
                 if tempera()>MAX_TEMP: return mins
                 if AIKA>MIN_TEMP_TIME and tempera()<MIN_TEMP: return mins
+                for cnt in range(10):
+                    time.sleep(0.1)
+                    if cnt==0:   tm.led(7,1); tm.led(0,0)
+                    elif cnt==3: tm.led(7,0); tm.led(0,1)
+                    elif cnt==6: tm.led(7,0); tm.led(0,0)
+                    k=tm.keys()
+                    if k==2**0 or k==2**1:
+                        keys01(k)
+                        if vasen: minsaa=aika1
+                        else: minsaa=aika2
+                    if k==2**7: return mins
         mins+=1
         AIKA+=1
         print("AIKA=",AIKA)
@@ -132,17 +156,17 @@ def nolla():
     kaasuhana(0)
 
 stepable.value(0)
-kaasuhana(30)
+kaasuhana(100)
 stepable.value(1)
 nolla()
 stepable.value(0)
 
 AIKA=0
-def keita(m1,m2):
-    global AIKA,MIN_TEMP_TIME
-    if m1>15 and m2==0: # Uunissa on oma liekinvarmistin
+def keita():
+    global AIKA,MIN_TEMP_TIME,aika1,aika2
+    if aika1>10 and aika2==0: # Uunissa on oma liekinvarmistin
         tm.show('  UUNI  ')
-        MIN_TEMP_TIME=60
+        MIN_TEMP_TIME=aika1
         MIN_TEMP=25
     else:
         tm.show(' KATTILA')
@@ -151,20 +175,18 @@ def keita(m1,m2):
     time.sleep(1)
     AIKA=0
     taysi()
-    timerun(m1,m2,True)
-    if m2==0:
+    timerun(True)
+    aika1=0
+    if aika2==0:
         nolla()
         return
     puoli()
-    timerun(0,m2,False)
+    timerun(False)
+    aika2=0
     nolla()
 
 showtime(MIN_TEMP,MAX_TEMP)
 time.sleep(1)
-
-m1=1
-m2=0
-valo=1
 
 while True:
     if palohaly.value()==0:
@@ -176,26 +198,17 @@ while True:
     if k>0:
         valo=(valo+1)%8
         time.sleep(0.5)
-    showtime(m1,m2)
-    if k==2**0:
-        m1=round(m1*1.5)
-        if m1>500:
-            m1=1
-    if k==2**1:
-        if m2==0:
-            m2=1
-        else:
-            m2=round(m2*1.5)
-        if m2>500:
-            m2=0
+    showtime(aika1,aika2)
+    if k==2**0 or k==2**1:
+        keys01(k)
     if k==2**2:
         v=valinta(0)
-        m1=menyy[v][1]
-        m2=menyy[v][2]
+        aika1=menyy[v][1]
+        aika2=menyy[v][2]
     if k==2**3:
         v=valinta(0)
-        m1=menyy[v][1]
-        m2=menyy[v][2]
+        aika1=menyy[v][1]
+        aika2=menyy[v][2]
     if k==2**4:
         if SIJAINTI==TAPISSA: puoli()
         elif SIJAINTI==PUOLI: nolla()
@@ -213,5 +226,5 @@ while True:
         with open('PUOLI.TXT', 'w') as f: f.write('%d' % PUOLI)
         time.sleep(1)
     if k==2**7:
-        keita(m1,m2)
+        keita()
 
