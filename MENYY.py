@@ -8,7 +8,7 @@ menyy=[
     ['FISHSTIG', 1, 5],   
     ['PIENET UUNIPERUNAT', 30, 0],
     ['SUURET UUNIPERUNAT', 40, 0],
-    ['LEIPA 200C', 20, 0],   
+    ['LEIPA 200C', 35, 0],   
     ['MUNA PAISTO', 1, 2],
     ['MUNA KEITTO', 3, 2],
     ['TESTI', 1, 2]   
