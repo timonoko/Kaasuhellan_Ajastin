@@ -6,7 +6,7 @@ myös puoliliekin.
 Havaitsee palohälytyksen, koska palohälyttimessä oleva transistori vetää
 kun kaijuttimesta tulee ääntä.
 
-Vehkeissä on myös eri ruokalajeille viritetty menyy.
+Vehkeessä on myös eri ruokalajeille viritetty menyy.
 
 Askelmoottori on entisestä skannerista ja näyttönappimoduuli on TM1638.
 
