@@ -88,16 +88,13 @@ def valinta(v):
 def keys01(k):
     global aika1,aika2
     if k==2**0:
-        aika1=round(aika1*1.5)
-        if aika1>500:
-            aika1=1
+        if aika1==0:  aika1=1
+        else: aika1=round(aika1*1.5)
+        if aika1>500:  aika1=0
     if k==2**1:
-        if aika2==0:
-            aika2=1
-        else:
-            aika2=round(aika2*1.5)
-        if aika2>500:
-            aika2=0
+        if aika2==0: aika2=1
+        else: aika2=round(aika2*1.5)
+        if aika1>500: aika1=0
     cou=0
     while tm.keys()>0:
         time.sleep(0.1)
@@ -115,18 +112,17 @@ def keitto(kypalla):
     global AIKA,MIN_TEMP_TIME,aika1,aika2
     if kypalla: minsaa=aika1
     else: minsaa=aika2
-    mins=0
-    while mins < minsaa:
+    while minsaa > 0:
         for y in range(6):
             for z in range(10):
                 tm.leds(0)
                 tm.led(y+1,1)
-                if kypalla: showtime(aika1-mins,aika2)
-                else: showtime(aika1,aika2-mins)
-                if mins==minsaa and z==9: return mins
-                if palohaly.value()==0: return mins
-                if tempera()>MAX_TEMP: return mins
-                if AIKA>MIN_TEMP_TIME and tempera()<MIN_TEMP: return mins
+                if kypalla: aika1=minsaa
+                else: aika2=minsaa
+                showtime(aika1,aika2)
+                if palohaly.value()==0: return
+                if tempera()>MAX_TEMP: return
+                if AIKA>MIN_TEMP_TIME and tempera()<MIN_TEMP: return
                 for cnt in range(10):
                     time.sleep(0.1)
                     if cnt==0:   tm.led(7,1); tm.led(0,0)
@@ -137,8 +133,8 @@ def keitto(kypalla):
                         keys01(k)
                         if kypalla: minsaa=aika1
                         else: minsaa=aika2
-                    if k==2**7: return mins
-        mins+=1
+                    if k==2**7: return
+        minsaa-=1
         AIKA+=1
         print("AIKA=",AIKA)
     return 0
