@@ -1,4 +1,6 @@
 
+# Kaasukeittiön totaalinen haltuunotto (c) Tnoko 2023
+
 import tm1638,time,machine
 from machine import Pin
 
@@ -25,7 +27,7 @@ def tempe1():
 
 TEMP=tempe1()
 
-def tempera():
+def tempera(): # Kohinainen lämpomittari, käytetään 10 otoksen keskiarvoa
     global TEMP
     TEMP=(9*TEMP+tempe1())/10
     return 24+int(TEMP)
@@ -109,9 +111,9 @@ def showtime (aika1, aika2):
     while len(s)<6: s=" "+s
     tm.show(str(tempera())+s)
 
-def timerun(vasen):
+def keitto(kypalla): 
     global AIKA,MIN_TEMP_TIME,aika1,aika2
-    if vasen: minsaa=aika1
+    if kypalla: minsaa=aika1
     else: minsaa=aika2
     mins=0
     while mins < minsaa:
@@ -119,7 +121,7 @@ def timerun(vasen):
             for z in range(10):
                 tm.leds(0)
                 tm.led(y+1,1)
-                if vasen: showtime(aika1-mins,aika2)
+                if kypalla: showtime(aika1-mins,aika2)
                 else: showtime(aika1,aika2-mins)
                 if mins==minsaa and z==9: return mins
                 if palohaly.value()==0: return mins
@@ -133,7 +135,7 @@ def timerun(vasen):
                     k=tm.keys()
                     if k==2**0 or k==2**1:
                         keys01(k)
-                        if vasen: minsaa=aika1
+                        if kypalla: minsaa=aika1
                         else: minsaa=aika2
                     if k==2**7: return mins
         mins+=1
@@ -148,14 +150,15 @@ with open('PUOLI.TXT') as file:
 def taysi():
     kaasuhana(TAPISSA)
 
-def puoli():
+def puoli():  # Puoliliekin kohtaa pitää lähestyä varoen ettei liekki sammu
     kaasuhana(PUOLI+100)
     kaasuhana(PUOLI,80)
 
 def nolla():
     kaasuhana(0)
 
-stepable.value(0)
+# Nostetaan hanaa ylös ja annetaan sen vapaasti pudota ==> Nollakohta
+stepable.value(0) 
 kaasuhana(100)
 stepable.value(1)
 nolla()
@@ -175,13 +178,13 @@ def keita():
     time.sleep(1)
     AIKA=0
     taysi()
-    timerun(True)
+    keitto(kypalla=True)
     aika1=0
     if aika2==0:
         nolla()
         return
     puoli()
-    timerun(False)
+    keitto(kypalla=False)
     aika2=0
     nolla()
 
@@ -199,32 +202,23 @@ while True:
         valo=(valo+1)%8
         time.sleep(0.5)
     showtime(aika1,aika2)
-    if k==2**0 or k==2**1:
+    if k==2**0 or k==2**1: # Keittoahjat käsin
         keys01(k)
-    if k==2**2:
+    if k==2**2 or k==2**3: # Keittoajat Menyystä
         v=valinta(0)
         aika1=menyy[v][1]
         aika2=menyy[v][2]
-    if k==2**3:
-        v=valinta(0)
-        aika1=menyy[v][1]
-        aika2=menyy[v][2]
-    if k==2**4:
+    if k==2**4:            # Kaasuhanan Testaus
         if SIJAINTI==TAPISSA: puoli()
         elif SIJAINTI==PUOLI: nolla()
         else: taysi()
-    if k==2**5:
-        PUOLI-=1
+    if k==2**5 or k==2**6: # Puoliliekin hienosäätö
+        if k==2**5: PUOLI-=1
+        else: PUOLI+=1
         puoli()
         tm.number(PUOLI)
         with open('PUOLI.TXT', 'w') as f: f.write('%d' % PUOLI)
         time.sleep(1)
-    if k==2**6:
-        PUOLI+=1
-        puoli()
-        tm.number(PUOLI)
-        with open('PUOLI.TXT', 'w') as f: f.write('%d' % PUOLI)
-        time.sleep(1)
-    if k==2**7:
+    if k==2**7: # Käynnistä Keittäminen Oitis
         keita()
 
