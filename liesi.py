@@ -24,6 +24,8 @@ def tempera(): # Kohinainen lämpomittari, käytetään 10 otoksen keskiarvoa
     TEMP=(9*TEMP+tempe1())/10
     return 24+int(TEMP)
 
+tempera();tempera();tempera()
+
 MIN_TEMP_ORIG=tempera()+5
 MIN_TEMP=MIN_TEMP_ORIG
 MIN_TEMP_TIME=3
@@ -166,7 +168,7 @@ def keita():
         MIN_TEMP=25
     else:
         tm.show(' KATTILA')
-        MIN_TEMP_TIME=2
+        MIN_TEMP_TIME=5
         MIN_TEMP=MIN_TEMP_ORIG
     time.sleep(1)
     AIKA=0
@@ -181,7 +183,7 @@ def keita():
     aika2=0
     nolla()
 
-showtime(MIN_TEMP,MAX_TEMP)
+tm.show(str(MIN_TEMP_TIME)+" "+str(MIN_TEMP_ORIG)+" "+str(MAX_TEMP))
 time.sleep(1)
 
 aika1=1
