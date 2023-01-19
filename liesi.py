@@ -14,14 +14,6 @@ stepable=Pin(5,Pin.OUT)
 
 adc=machine.ADC(machine.Pin(33),atten=machine.ADC.ATTN_11DB)
 
-MAX_TEMP=70
-MIN_TEMP=30
-MIN_TEMP_TIME=5
-
-aika1=1
-aika2=0
-valo=1
-
 def tempe1():
     return (adc.read()*2450/900)*100./4096-50.
 
@@ -31,6 +23,11 @@ def tempera(): # Kohinainen lämpomittari, käytetään 10 otoksen keskiarvoa
     global TEMP
     TEMP=(9*TEMP+tempe1())/10
     return 24+int(TEMP)
+
+MIN_TEMP_ORIG=tempera()+5
+MIN_TEMP=MIN_TEMP_ORIG
+MIN_TEMP_TIME=3
+MAX_TEMP=70
 
 tm.brightness(1)
 UP=1
@@ -120,9 +117,9 @@ def keitto(kypalla):
                 if kypalla: aika1=minsaa
                 else: aika2=minsaa
                 showtime(aika1,aika2)
-                if palohaly.value()==0: return
-                if tempera()>MAX_TEMP: return
-                if AIKA>MIN_TEMP_TIME and tempera()<MIN_TEMP: return
+                if palohaly.value()==0: aika2=0; return
+                if tempera()>MAX_TEMP: aika2=0; return 
+                if AIKA>MIN_TEMP_TIME and tempera()<MIN_TEMP: aika2=0; return
                 for cnt in range(10):
                     time.sleep(0.1)
                     if cnt==0:   tm.led(7,1); tm.led(0,0)
@@ -133,10 +130,10 @@ def keitto(kypalla):
                         keys01(k)
                         if kypalla: minsaa=aika1
                         else: minsaa=aika2
-                    if k==2**7: return
+                    if k==2**7: aika2=0; return
         minsaa-=1
         AIKA+=1
-        print("AIKA=",AIKA)
+        print("AIKA,MIN_TEMP_TIME,MIN_TEMP,tempera()=",AIKA,MIN_TEMP_TIME,MIN_TEMP,tempera())
     return 0
 
 TAPISSA=530
@@ -169,8 +166,8 @@ def keita():
         MIN_TEMP=25
     else:
         tm.show(' KATTILA')
-        MIN_TEMP_TIME=5
-        MIN_TEMP=30
+        MIN_TEMP_TIME=2
+        MIN_TEMP=MIN_TEMP_ORIG
     time.sleep(1)
     AIKA=0
     taysi()
@@ -186,6 +183,10 @@ def keita():
 
 showtime(MIN_TEMP,MAX_TEMP)
 time.sleep(1)
+
+aika1=1
+aika2=0
+valo=1
 
 while True:
     if palohaly.value()==0:
