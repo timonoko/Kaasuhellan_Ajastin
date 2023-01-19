@@ -21,14 +21,14 @@ TEMP=tempe1()
 
 def tempera(): # Kohinainen lämpomittari, käytetään 10 otoksen keskiarvoa
     global TEMP
-    TEMP=(9*TEMP+tempe1())/10
+    TEMP=(4*TEMP+tempe1())/5
     return 24+int(TEMP)
 
 tempera();tempera();tempera()
 
 MIN_TEMP_ORIG=tempera()+5
 MIN_TEMP=MIN_TEMP_ORIG
-MIN_TEMP_TIME=3
+MIN_TEMP_TIME=5
 MAX_TEMP=70
 
 tm.brightness(1)
@@ -183,10 +183,10 @@ def keita():
     aika2=0
     nolla()
 
-tm.show(str(MIN_TEMP_TIME)+" "+str(MIN_TEMP_ORIG)+" "+str(MAX_TEMP))
+tm.show(str(MIN_TEMP_TIME)+"  "+str(MIN_TEMP_ORIG)+" "+str(MAX_TEMP))
 time.sleep(1)
 
-aika1=1
+aika1=3
 aika2=0
 valo=1
 
