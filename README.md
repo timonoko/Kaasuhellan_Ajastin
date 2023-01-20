@@ -18,5 +18,5 @@ Hellan yläpuolella oleva lämpömittari TMP36GT9Z sammuttaa hanan, jos lämpöt
 
 https://youtu.be/Kd3liw780tA
 
-<image src=perunat2.png>
+<image src=xstop.png>
 <image src=Perunat.png>
