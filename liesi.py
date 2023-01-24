@@ -26,7 +26,7 @@ def tempera(): # Kohinainen lämpomittari, käytetään 10 otoksen keskiarvoa
 
 tempera();tempera();tempera()
 
-MIN_TEMP_ORIG=tempera()+5
+MIN_TEMP_ORIG=tempera()+3
 MIN_TEMP=MIN_TEMP_ORIG
 MIN_TEMP_TIME=5
 MAX_TEMP=70
@@ -102,6 +102,16 @@ def keys01(k):
             if k==2**0: aika1=1
             if k==2**1: aika2=0
 
+def hienosaato(k):
+    global PUOLI
+    if k==2**5: PUOLI-=1
+    else: PUOLI+=1
+    puoli()
+    tm.number(PUOLI)
+    with open('PUOLI.TXT', 'w') as f: f.write('%d' % PUOLI)
+    time.sleep(1)
+                
+
 def showtime (aika1, aika2):
     s=str(aika1)+" "+str(aika2)
     while len(s)<6: s=" "+s
@@ -132,13 +142,15 @@ def keitto(kypalla):
                         keys01(k)
                         if kypalla: minsaa=aika1
                         else: minsaa=aika2
+                    if k==2**5 or k==2**6: # Puoliliekin hienosäätö
+                        hienosaato(k)
                     if k==2**7: aika2=0; return
         minsaa-=1
         AIKA+=1
         print("AIKA,MIN_TEMP_TIME,MIN_TEMP,tempera()=",AIKA,MIN_TEMP_TIME,MIN_TEMP,tempera())
     return 0
 
-TAPISSA=530
+TAPISSA=500
 with open('PUOLI.TXT') as file:
      PUOLI = int(file.read())
 
@@ -150,13 +162,13 @@ def puoli():  # Puoliliekin kohtaa pitää lähestyä varoen ettei liekki sammu
     kaasuhana(PUOLI,80)
 
 def nolla():
-    kaasuhana(0)
+    kaasuhana(-1) 
 
 # Nostetaan hanaa ylös ja annetaan sen vapaasti pudota ==> Nollakohta
 stepable.value(0) 
 kaasuhana(100)
 stepable.value(1)
-nolla()
+kaasuhana(0) 
 stepable.value(0)
 
 AIKA=0
@@ -212,12 +224,7 @@ while True:
         elif SIJAINTI==PUOLI: nolla()
         else: taysi()
     if k==2**5 or k==2**6: # Puoliliekin hienosäätö
-        if k==2**5: PUOLI-=1
-        else: PUOLI+=1
-        puoli()
-        tm.number(PUOLI)
-        with open('PUOLI.TXT', 'w') as f: f.write('%d' % PUOLI)
-        time.sleep(1)
+        hienosaato(k)
     if k==2**7: # Käynnistä Keittäminen Oitis
         keita()
 
