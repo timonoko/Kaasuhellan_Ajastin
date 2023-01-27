@@ -40,7 +40,7 @@ webrepl.start()
 
 do_not_connect()
 
-if tm.keys()==0: import liesi
+if tm.keys()!=1: import liesi
 tm.show("EEEEEEEE")
 
 

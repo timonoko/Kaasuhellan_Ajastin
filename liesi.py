@@ -56,6 +56,7 @@ def kaasuhana(asento,speed=500):
         time.sleep(1/speed)
     time.sleep(1)
     tm.brightness(1)
+    with open('SIJAINTI.TXT', 'w') as f:  f.write('%d' % SIJAINTI)
 
 from MENYY import menyy
 
@@ -102,15 +103,15 @@ def keys01(k):
             if k==2**0: aika1=1
             if k==2**1: aika2=0
 
-def hienosaato(k):
+def hienosaato(k):  # Puoliliekin hienosäätö
     global PUOLI
     if k==2**5: PUOLI-=1
     else: PUOLI+=1
     puoli()
     tm.number(PUOLI)
-    with open('PUOLI.TXT', 'w') as f: f.write('%d' % PUOLI)
+    with open('PUOLI.TXT', 'w') as f:
+        f.write('%d' % PUOLI)
     time.sleep(1)
-                
 
 def showtime (aika1, aika2):
     s=str(aika1)+" "+str(aika2)
@@ -142,17 +143,16 @@ def keitto(kypalla):
                         keys01(k)
                         if kypalla: minsaa=aika1
                         else: minsaa=aika2
-                    if k==2**5 or k==2**6: # Puoliliekin hienosäätö
+                    if k==2**5 or k==2**6:
                         hienosaato(k)
-                    if k==2**7: aika2=0; return
+                    if k==2**7: return
         minsaa-=1
         AIKA+=1
         print("AIKA,MIN_TEMP_TIME,MIN_TEMP,tempera()=",AIKA,MIN_TEMP_TIME,MIN_TEMP,tempera())
     return 0
 
 TAPISSA=500
-with open('PUOLI.TXT') as file:
-     PUOLI = int(file.read())
+with open('PUOLI.TXT') as file: PUOLI = int(file.read())
 
 def taysi():
     kaasuhana(TAPISSA)
@@ -165,11 +165,16 @@ def nolla():
     kaasuhana(-1) 
 
 # Nostetaan hanaa ylös ja annetaan sen vapaasti pudota ==> Nollakohta
+
+with open('SIJAINTI.TXT') as file:  SIJAINTI = int(file.read())
+if SIJAINTI!=-1: SIJAINTI=30 # tähän asentoon se putoaa kun virta katkeaa
+kaasuhana(0)
 stepable.value(0) 
 kaasuhana(100)
 stepable.value(1)
-kaasuhana(0) 
+kaasuhana(0)
 stepable.value(0)
+kaasuhana(-1) # naru löysälle, ettei veny
 
 AIKA=0
 def keita():
@@ -213,7 +218,7 @@ while True:
         valo=(valo+1)%8
         time.sleep(0.5)
     showtime(aika1,aika2)
-    if k==2**0 or k==2**1: # Keittoahjat käsin
+    if k==2**0 or k==2**1: # Keittoajat käsin
         keys01(k)
     if k==2**2 or k==2**3: # Keittoajat Menyystä
         v=valinta(0)
