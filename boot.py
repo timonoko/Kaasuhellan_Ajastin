@@ -1,4 +1,4 @@
-import tm1638
+import tm1638,time
 from machine import Pin
 tm = tm1638.TM1638(stb=Pin(13), clk=Pin(14), dio=Pin(12))
 tm.show("--------")
@@ -10,8 +10,14 @@ def do_connect():
         print('connecting to network...')
         sta_if.active(True)
         sta_if.connect('Jorpakko', 'Juhannusyona')
+        count=0
         while not sta_if.isconnected():
-            pass
+            time.sleep(0.5)
+            count+=1
+            if count>20:
+                tm.show(" NO NET ")
+                time.sleep(0.5)
+                return
     print('IF network config:', sta_if.ifconfig())
 
 do_connect() 
