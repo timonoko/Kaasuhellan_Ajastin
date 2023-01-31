@@ -3,6 +3,8 @@ from machine import Pin
 tm = tm1638.TM1638(stb=Pin(13), clk=Pin(14), dio=Pin(12))
 tm.show("--------")
 
+if tm.keys()!=1: import liesi
+
 def do_connect():
     import network
     sta_if = network.WLAN(network.STA_IF)
@@ -46,7 +48,6 @@ webrepl.start()
 
 do_not_connect()
 
-if tm.keys()!=1: import liesi
 tm.show("EEEEEEEE")
 
 
