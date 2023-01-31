@@ -6,7 +6,7 @@ menyy=[
     ['COFEFE  ', 3, 0],
     ['PANNARI ', 2, 5],
     ['FISHSTIC', 1, 7],   
-    ['SPAGETTI', 1, 7],   
+    ['SPAGETTI', 5, 12],   
     ['PIENET UUNIPERUNAT', 30, 0],
     ['SUURET UUNIPERUNAT', 40, 0],
     ['LEIPA 200C', 30, 0],   
