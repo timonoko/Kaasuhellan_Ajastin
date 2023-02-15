@@ -26,7 +26,7 @@ def tempera(): # Kohinainen lämpomittari, käytetään 10 otoksen keskiarvoa
 
 tempera();tempera();tempera()
 
-MIN_TEMP_ORIG=tempera()+3
+MIN_TEMP_ORIG=tempera()+2
 MIN_TEMP=MIN_TEMP_ORIG
 MIN_TEMP_TIME=5
 MAX_TEMP=70
@@ -54,7 +54,7 @@ def kaasuhana(asento,speed=500):
         time.sleep(1/speed)
         step.value(0)
         time.sleep(1/speed)
-    time.sleep(1)
+#    time.sleep(1)
     tm.brightness(1)
     with open('SIJAINTI.TXT', 'w') as f:  f.write('%d' % SIJAINTI)
 
@@ -115,15 +115,19 @@ def hienosaato(k):  # Puoliliekin hienosäätö
 
 def showtime (aika1, aika2):
     s=str(aika1)+" "+str(aika2)
+    if MIN_TEMP==tempera(): s="E "+s
+    elif MIN_TEMP>tempera(): s="- "+s
     while len(s)<6: s=" "+s
     tm.show(str(tempera())+s)
 
 def keitto(kypalla): 
-    global AIKA,MIN_TEMP_TIME,aika1,aika2
+    global AIKA,MIN_TEMP_TIME,aika1,aika2,MIN_TEMP
+    if MIN_TEMP==100:  tm.scroll("SAMMUTA KATTILA",delay=500)
     if kypalla: minsaa=aika1
     else: minsaa=aika2
     while minsaa > 0:
         for y in range(6):
+            if y==4 and MIN_TEMP==100:  tm.scroll("SAMMUTA KATTILA",delay=100)
             for z in range(10):
                 tm.leds(0)
                 tm.led(y+1,1)
@@ -143,8 +147,7 @@ def keitto(kypalla):
                         keys01(k)
                         if kypalla: minsaa=aika1
                         else: minsaa=aika2
-                    if k==2**5 or k==2**6:
-                        hienosaato(k)
+                    if k==2**5 or k==2**6: hienosaato(k)
                     if k==2**7: return
         minsaa-=1
         AIKA+=1
@@ -178,16 +181,15 @@ kaasuhana(-1) # naru löysälle, ettei veny
 
 AIKA=0
 def keita():
-    global AIKA,MIN_TEMP_TIME,aika1,aika2
+    global AIKA,MIN_TEMP_TIME,aika1,aika2,MIN_TEMP
     if aika1>10 and aika2==0: # Uunissa on oma liekinvarmistin
         tm.show('  UUNI  ')
         MIN_TEMP_TIME=aika1
-        MIN_TEMP=25
+        MIN_TEMP=100
     else:
         tm.show(' KATTILA')
         MIN_TEMP_TIME=5
         MIN_TEMP=MIN_TEMP_ORIG
-    time.sleep(1)
     AIKA=0
     taysi()
     keitto(kypalla=True)
@@ -199,9 +201,6 @@ def keita():
     keitto(kypalla=False)
     aika2=0
     nolla()
-
-tm.show(str(MIN_TEMP_TIME)+"  "+str(MIN_TEMP_ORIG)+" "+str(MAX_TEMP))
-time.sleep(1)
 
 aika1=3
 aika2=0
