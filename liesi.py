@@ -122,7 +122,6 @@ def showtime (aika1, aika2):
 
 def keitto(kypalla): 
     global AIKA,MIN_TEMP_TIME,aika1,aika2,MIN_TEMP
-    if MIN_TEMP==100:  tm.scroll("SAMMUTA KATTILA",delay=500)
     if kypalla: minsaa=aika1
     else: minsaa=aika2
     while minsaa > 0:
@@ -190,6 +189,9 @@ def keita():
         tm.show(' KATTILA')
         MIN_TEMP_TIME=5
         MIN_TEMP=MIN_TEMP_ORIG
+    while tm.keys()>0: pass
+    if MIN_TEMP==100:
+        while tm.keys()==0: tm.scroll("SAMMUTA KATTILA",delay=200)
     AIKA=0
     taysi()
     keitto(kypalla=True)
