@@ -9,8 +9,8 @@ menyy=[
     ['SPAGETTI', 5, 12],   
     ['PIENET UUNIPERUNAT', 30, 0],
     ['SUURET UUNIPERUNAT', 40, 0],
-    ['LEIPA 200C', 30, 0],   
+    ['HIIVALEIPA 200C', 30, 0],   
+    ['PATALEIPA 200C', 40, 0],   
     ['MUNA PAISTO', 1, 2],
-    ['MUNA KEITTO', 3, 2],
-    ['TESTI', 1, 2]   
+    ['MUNA KEITTO', 3, 2]
     ]
