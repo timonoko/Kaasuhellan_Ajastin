@@ -27,6 +27,7 @@ def tempera(): # Kohinainen lämpomittari, käytetään 10 otoksen keskiarvoa
 tempera();tempera();tempera()
 
 MIN_TEMP_ORIG=tempera()+2
+if MIN_TEMP_ORIG>26: MIN_TEMP_ORIG=26
 MIN_TEMP=MIN_TEMP_ORIG
 MIN_TEMP_TIME=5
 MAX_TEMP=70
@@ -35,6 +36,15 @@ tm.brightness(1)
 UP=1
 DOWN=0
 SIJAINTI=0
+
+def myscroll(x):
+      tm.show('        ')
+      if len(x)<9: tm.show(x)
+      else:
+        x='  '+x
+        for i in range(0,len(x)-7):
+             tm.show(x[i:(i+8)])
+             time.sleep(0.2)
 
 def kaasuhana(asento,speed=500):
     global SIJAINTI
@@ -64,15 +74,12 @@ def valinta(v):
     time.sleep(0.2)
     while True:
         tm.leds(2**v)
-        tm.show('        ')
-        if len(menyy[v][0])>8:
-            tm.scroll(menyy[v][0],delay=100)
-        tm.show(menyy[v][0][0:8])
+        myscroll(menyy[v][0])
         while True:
             k=tm.keys()
             if k>0:
                 break
-        time.sleep(1)
+        time.sleep(0.3)
         if k==2**3:
             v=v+1
             if v==len(menyy):
@@ -126,7 +133,7 @@ def keitto(kypalla):
     else: minsaa=aika2
     while minsaa > 0:
         for y in range(6):
-            if y==4 and MIN_TEMP==100:  tm.scroll("SAMMUTA KATTILA",delay=100)
+            if y==4 and MIN_TEMP==100:  myscroll("SAMMUTA KATTILA")
             for z in range(10):
                 tm.leds(0)
                 tm.led(y+1,1)
@@ -191,7 +198,7 @@ def keita():
         MIN_TEMP=MIN_TEMP_ORIG
     while tm.keys()>0: pass
     if MIN_TEMP==100:
-        while tm.keys()==0: tm.scroll("SAMMUTA KATTILA",delay=200)
+        while tm.keys()==0: myscroll("SAMMUTA KATTILA")
     AIKA=0
     taysi()
     keitto(kypalla=True)
