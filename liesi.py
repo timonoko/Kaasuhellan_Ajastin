@@ -21,13 +21,13 @@ TEMP=tempe1()
 
 def tempera(): # Kohinainen lämpomittari, käytetään 10 otoksen keskiarvoa
     global TEMP
-    TEMP=(4*TEMP+tempe1())/5
+    TEMP=(99*TEMP+tempe1())/100
     return 24+int(TEMP)
 
 tempera();tempera();tempera()
 
 MIN_TEMP_ORIG=tempera()+2
-if MIN_TEMP_ORIG>26: MIN_TEMP_ORIG=26
+if MIN_TEMP_ORIG>25: MIN_TEMP_ORIG=25
 MIN_TEMP=MIN_TEMP_ORIG
 MIN_TEMP_TIME=5
 MAX_TEMP=70
