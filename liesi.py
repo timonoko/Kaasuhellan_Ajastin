@@ -26,7 +26,7 @@ def tempera(): # Kohinainen lämpomittari, käytetään 10 otoksen keskiarvoa
 
 tempera();tempera();tempera()
 
-MIN_TEMP_ORIG=tempera()+2
+MIN_TEMP_ORIG=tempera()+1
 if MIN_TEMP_ORIG>25: MIN_TEMP_ORIG=25
 MIN_TEMP=MIN_TEMP_ORIG
 MIN_TEMP_TIME=5
@@ -127,8 +127,9 @@ def showtime (aika1, aika2):
     while len(s)<6: s=" "+s
     tm.show(str(tempera())+s)
 
+VIESTI=""
 def keitto(kypalla): 
-    global AIKA,MIN_TEMP_TIME,aika1,aika2,MIN_TEMP
+    global AIKA,MIN_TEMP_TIME,aika1,aika2,MIN_TEMP,VIESTI
     if kypalla: minsaa=aika1
     else: minsaa=aika2
     while minsaa > 0:
@@ -140,9 +141,9 @@ def keitto(kypalla):
                 if kypalla: aika1=minsaa
                 else: aika2=minsaa
                 showtime(aika1,aika2)
-                if palohaly.value()==0: aika2=0; return
-                if tempera()>MAX_TEMP: aika2=0; return 
-                if AIKA>MIN_TEMP_TIME and tempera()<MIN_TEMP: aika2=0; return
+                if palohaly.value()==0: aika2=0; VIESTI="TULIPALO"; return
+                if tempera()>MAX_TEMP: aika2=0; VIESTI="YLILAMPO"; return 
+                if AIKA>MIN_TEMP_TIME and tempera()<MIN_TEMP: aika2=0; VIESTI="ALILAMPO"; return
                 for cnt in range(10):
                     time.sleep(0.1)
                     if cnt==0:   tm.led(7,1); tm.led(0,0)
@@ -216,16 +217,20 @@ aika2=0
 valo=1
 
 while True:
-    if palohaly.value()==0:
-        tm.show('TULIPALO')
-        time.sleep(10)
     time.sleep(0.1)
     k=tm.keys()
     tm.leds(2**valo)
     if k>0:
         valo=(valo+1)%8
         time.sleep(0.5)
-    showtime(aika1,aika2)
+    if VIESTI != "":
+        tm.brightness(7)
+        tm.show(VIESTI)
+        time.sleep(1)
+        tm.show("        ")
+        time.sleep(1)
+    else:
+        showtime(aika1,aika2)
     if k==2**0 or k==2**1: # Keittoajat käsin
         keys01(k)
     if k==2**2 or k==2**3: # Keittoajat Menyystä
