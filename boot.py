@@ -48,7 +48,7 @@ webrepl.start()
 
 do_not_connect()
 
-tm.show("EEEEEEEE")
+tm.show("CODEMODE")
 
 
 

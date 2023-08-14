@@ -101,7 +101,7 @@ def keys01(k):
     if k==2**1:
         if aika2==0: aika2=1
         else: aika2=round(aika2*1.5)
-        if aika1>500: aika1=0
+        if aika2>500: aika2=0
     cou=0
     while tm.keys()>0:
         time.sleep(0.1)
@@ -209,6 +209,7 @@ def keita():
         return
     puoli()
     keitto(kypalla=False)
+    if aika1>0: keita() #uusiks
     aika2=0
     nolla()
 
@@ -239,7 +240,6 @@ while True:
         aika2=menyy[v][2]
     if k==2**4:            # Kaasuhanan Testaus
         if SIJAINTI==TAPISSA: puoli()
-        elif SIJAINTI==PUOLI: nolla()
         else: taysi()
     if k==2**5 or k==2**6: # Puoliliekin hienosäätö
         hienosaato(k)
