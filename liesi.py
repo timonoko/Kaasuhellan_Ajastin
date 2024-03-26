@@ -26,7 +26,7 @@ def tempera(): # Kohinainen lämpomittari, käytetään 10 otoksen keskiarvoa
 
 tempera();tempera();tempera()
 
-MIN_TEMP_ORIG=tempera()+1
+MIN_TEMP_ORIG=tempera()
 if MIN_TEMP_ORIG>25: MIN_TEMP_ORIG=25
 MIN_TEMP=MIN_TEMP_ORIG
 MIN_TEMP_TIME=5
@@ -213,7 +213,7 @@ def keita():
     aika2=0
     nolla()
 
-aika1=3
+aika1=2
 aika2=0
 valo=1
 
@@ -238,6 +238,7 @@ while True:
         v=valinta(0)
         aika1=menyy[v][1]
         aika2=menyy[v][2]
+        keita() # Käynnistä Keittäminen Oitis
     if k==2**4:            # Kaasuhanan Testaus
         if SIJAINTI==TAPISSA: puoli()
         else: taysi()
