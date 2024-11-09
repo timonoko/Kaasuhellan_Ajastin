@@ -15,5 +15,5 @@ menyy=[
     ['HIIVALEIPA 200C', 30, 0],   
     ['PATALEIPA 200C', 40, 0],   
     ['MUNA PAISTO', 1, 2],
-    ['MUNA KEITTO', 4, 10]
+    ['MUNA KEITTO', 5, 15]
     ]
