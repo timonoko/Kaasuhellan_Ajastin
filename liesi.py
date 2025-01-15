@@ -191,7 +191,7 @@ def keita():
     global AIKA,MIN_TEMP_TIME,aika1,aika2,MIN_TEMP
     if aika1>10 and aika2==0: # Uunissa on oma liekinvarmistin
         tm.show('  UUNI  ')
-        MIN_TEMP_TIME=aika1+1 # Loppuviesti "SAMMUTA KATTILA" jos sama
+        MIN_TEMP_TIME=aika1+2 # Loppuviesti "ALILAMPO" jos sama
         MIN_TEMP=100
     else:
         tm.show(' KATTILA')
