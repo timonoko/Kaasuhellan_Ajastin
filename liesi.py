@@ -141,7 +141,7 @@ def keitto(kypalla):
                 if kypalla: aika1=minsaa
                 else: aika2=minsaa
                 showtime(aika1,aika2)
-                if palohaly.value()==0: aika2=0; VIESTI="TULIPALO"; return
+                if palohaly.value()==0: aika2=0; VIESTI="SAVUA "; return
                 if tempera()>MAX_TEMP: aika2=0; VIESTI="YLILAMPO"; return 
                 if AIKA>MIN_TEMP_TIME and tempera()<MIN_TEMP: aika2=0; VIESTI="ALILAMPO"; return
                 for cnt in range(10):
